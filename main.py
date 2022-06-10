@@ -7,7 +7,6 @@ def login():
     mega = Mega()
     m = mega.login(EMAIL.message, PASSWORD.message)
     details = m.get_user()
-    quota = m.get_quota()
     space = m.get_storage_space(giga=True)
 
     global acc_name
@@ -32,11 +31,10 @@ async def start(event):
 
 @client.on(events.NewMessage(pattern='/help'))
 async def help(event):
-    chat = await event.get_chat()
     await event.reply('Hey I can upload your files to Mega and get it\'s public link. Before that I want to access to your Mega account. Because I upload files to your own Mega cloud storage.\n\nFirst you want to create a Mega account. If you done it send /upload command.')
 
 @client.on(events.NewMessage(pattern='/upload'))
-async def help(event):
+async def upload(event):
     global EMAIL
     global PASSWORD
     global chat
@@ -66,9 +64,6 @@ async def help(event):
         shutil.rmtree('./down')
 
     await event.reply(f'Long url - {longlink}\n\nShort link - {shortlink}')
-
-
-# email_pattern = '^[a-z 0-9]+[/._]?[a-z 0-9]+[@]+\w+[.]\w+{2,3}$'
-
+    
 client.start()
 client.run_until_disconnected()
